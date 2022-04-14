@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # This script copy files mentioned inside `backup.conf` to the root of the project.
 
@@ -8,10 +8,7 @@ backupPaths="./backup.conf"
 # home directory path.
 homeDirectory=~
 
-# same line identifier to echo in the same line.
-sameLine="\e[1A\e[K"
-
-echo "🛑 Clearing configurations directory..."
+echo "Clearing configurations directory..."
 # removing the folder with exsiting contents. we have git version anyway!
 
 rm -rf configurations
@@ -19,26 +16,26 @@ rm -rf configurations
 # creating it again for backup.
 mkdir configurations
 sleep 1
-echo -e "$sameLine✅ Configurations directory cleared."
+echo -e "Configurations directory cleared."
 sleep 1
 
-echo -e "$sameLine🏁 Starting backup..."
+echo -e "Starting backup..."
 sleep 1
 
 # looping through the list & avoiding the empty spaces
 sed '/^[ \t]*$/d' $backupPaths | while read filePath; do
-  echo -e "$sameLine⏳ Copying: $filePath"
+  echo "From $backupPaths Copying: $filePath"
 
   # find & replace for ~ with home path
-  findThis="~/"
-  replaceWith="$homeDirectory/"
-  originalFile="${filePath//${findThis}/${replaceWith}}"
-
+  #findThis="~/"
+  #replaceWith="$homeDirectory/"
+  #originalFile="${filePath//${findThis}/${replaceWith}}"
+  
   # copying the files
-  cp --parents --recursive $originalFile ./configurations
+  cp --parents --recursive $filePath ./configurations
   sleep 0.05
 done
 
 git add .
 
-echo -e "$sameLine🎉 Backup finished! You can review & commit your changes."
+echo -e "Backup finished! You can review & commit your changes."
